@@ -8,6 +8,8 @@ body {
     align-items: center;
     min-height: 100vh;
 }
+
+/* Estilos para el contenedor principal */
 .container {
     max-width: 400px;
     background-color: #fff;
@@ -15,23 +17,32 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     padding: 20px;
     text-align: center;
+    display: flex;
 }
+
+/* Estilos para el encabezado */
 h1 {
     font-size: 24px;
     margin-bottom: 20px;
 }
+
+/* Estilos para las etiquetas de entrada */
 label {
     display: block;
     font-weight: bold;
     margin-bottom: 5px;
 }
-input[type="number"] {
+
+/* Estilos para los campos de entrada de tipo número */
+input[type="text"] {
     width: 100%;
     padding: 10px;
     margin-bottom: 10px;
     border: 1px solid #ccc;
     border-radius: 3px;
 }
+
+/* Estilos para el botón */
 button {
     background-color: #007BFF;
     color: #fff;
@@ -40,9 +51,13 @@ button {
     border-radius: 3px;
     cursor: pointer;
 }
+
+/* Estilos para el botón cuando se pasa el mouse por encima */
 button:hover {
     background-color: #0056b3;
 }
+
+/* Estilos para el resultado */
 #resultado {
     margin-top: 20px;
     font-weight: bold;

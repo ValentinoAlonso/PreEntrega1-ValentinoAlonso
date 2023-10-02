@@ -1,16 +1,26 @@
-  function calcularNotaFinal() {
-    const nota1 = parseFloat(document.getElementById("nota1").value);
-    const nota2 = parseFloat(document.getElementById("nota2").value);
-    const nota3 = parseFloat(document.getElementById("nota3").value);
+function calcularNotaFinal() {
+    const notas = document.querySelectorAll(".nota");
+    let suma = 0;
+    let cantidadNotas = 0;
 
-    if (isNaN(nota1) || isNaN(nota2) || isNaN(nota3)) {
-        document.getElementById("resultado").innerHTML = "Por favor, ingrese valores numéricos válidos en todas las notas.";
+    for (let i = 0; i < notas.length; i++) {
+        const nota = parseFloat(notas[i].value);
+
+        if (isNaN(nota)) {
+            document.getElementById("resultado").innerHTML = "Por favor, ingrese valores numéricos válidos en todas las notas.";
+            return;
+        }
+
+        suma += nota;
+        cantidadNotas++;
+    }
+
+    if (cantidadNotas === 0) {
+        document.getElementById("resultado").innerHTML = "No se ingresaron notas.";
         return;
     }
 
-
-    const notaFinal = (nota1 + nota2 + nota3) / 3;
-
+    const notaFinal = suma / cantidadNotas;
 
     let mensaje = `La nota final es: ${notaFinal.toFixed(2)}. `;
     if (notaFinal >= 4) {
@@ -18,7 +28,6 @@
     } else {
         mensaje += "El estudiante ha reprobado.";
     }
-
 
     document.getElementById("resultado").innerHTML = mensaje;
 }
