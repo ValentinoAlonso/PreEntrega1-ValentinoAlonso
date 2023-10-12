@@ -10,13 +10,15 @@
 <html>
     <body>
         <h1>Calculadora de Notas</h1>
-        <p>Ingrese las notas:</p>
-        <input type="text" class="nota" id="nota1" placeholder="Nota 1">
-        <input type="text" class="nota" id="nota2" placeholder="Nota 2">
-        <input type="text" class="nota" id="nota3" placeholder="Nota 3">
-        <button onclick="calcularNotaFinal()">Calcular</button>
+        <label for="nota">Ingresar Nota:</label>
+        <input type="text" id="nota">
+        <button onclick="agregarNota()">Agregar Nota</button>
+        <br>
         <p id="resultado"></p>
-    </body>
+        <button onclick="calcularNotaFinal()">Calcular Nota Final</button>
+    <body>
+    
+  
     
 
 </html>

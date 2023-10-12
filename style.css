@@ -1,64 +1,70 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f2f2f2;
     margin: 0;
     padding: 0;
+    background-color: #f2f2f2;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
 }
 
-/* Estilos para el contenedor principal */
 .container {
+    width: 100%;
     max-width: 400px;
+    padding: 20px;
     background-color: #fff;
     border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     text-align: center;
-    display: flex;
 }
 
-/* Estilos para el encabezado */
 h1 {
+    text-align: center;
     font-size: 24px;
     margin-bottom: 20px;
 }
 
-/* Estilos para las etiquetas de entrada */
-label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
+/* Estilos para el formulario */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-/* Estilos para los campos de entrada de tipo número */
+label {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
 input[type="text"] {
     width: 100%;
     padding: 10px;
-    margin-bottom: 10px;
+    margin-top: 5px;
     border: 1px solid #ccc;
     border-radius: 3px;
 }
 
-/* Estilos para el botón */
 button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 20px;
     background-color: #007BFF;
     color: #fff;
-    padding: 10px 20px;
     border: none;
     border-radius: 3px;
     cursor: pointer;
 }
 
-/* Estilos para el botón cuando se pasa el mouse por encima */
 button:hover {
     background-color: #0056b3;
 }
 
-/* Estilos para el resultado */
+/* Estilos para el área de resultado */
 #resultado {
     margin-top: 20px;
     font-weight: bold;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
 }
