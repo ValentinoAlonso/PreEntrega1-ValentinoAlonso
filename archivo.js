@@ -6,6 +6,7 @@ class Estudiante {
     agregarNota(nota) {
         if (!isNaN(nota)) {
             this.notas.push(parseFloat(nota));
+            this.actualizarNotasEnLocalStorage();
         } else {
             throw new Error("Por favor, ingrese un valor numérico válido en todas las notas.");
         }
@@ -26,9 +27,19 @@ class Estudiante {
             return mensaje + "El estudiante ha reprobado.";
         }
     }
+
+    actualizarNotasEnLocalStorage() {
+        localStorage.setItem("notas", JSON.stringify(this.notas));
+    }
 }
 
 const estudiante = new Estudiante();
+
+// Cargar las notas desde el almacenamiento local al cargar la página
+const notasGuardadas = localStorage.getItem("notas");
+if (notasGuardadas) {
+    estudiante.notas = JSON.parse(notasGuardadas);
+}
 
 function agregarNota() {
     const notaInput = document.getElementById("nota");
@@ -37,6 +48,7 @@ function agregarNota() {
     try {
         estudiante.agregarNota(nota);
         notaInput.value = ""; // Limpiar el campo de entrada
+        document.getElementById("resultado").innerHTML = "Nota agregada exitosamente.";
     } catch (error) {
         document.getElementById("resultado").innerHTML = error.message;
     }
