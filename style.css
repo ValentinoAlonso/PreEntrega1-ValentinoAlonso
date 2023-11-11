@@ -145,9 +145,9 @@ header{
 
 .item{
     border-radius: 10px;
-    overflow: hidden; /* Añadí overflow para cortar cualquier desbordamiento */
-    background-color: #fff; /* Fondo blanco para cada elemento */
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); /* Sutil sombra */
+    overflow: hidden; 
+    background-color: #fff; 
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); 
 }
 
 .item:hover{
