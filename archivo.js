@@ -1,60 +1,132 @@
-class Estudiante {
-    constructor() {
-        this.notas = [];
-    }
+const btnCart = document.querySelector('.container-cart-icon');
+const containerCartProducts = document.querySelector('.container-cart-products');
 
-    agregarNota(nota) {
-        if (!isNaN(nota)) {
-            this.notas.push(parseFloat(nota));
-            this.actualizarNotasEnLocalStorage();
+btnCart.addEventListener('click', () => {
+  containerCartProducts.classList.toggle('hidden-cart');
+});
+
+const cartInfo = document.querySelector('.cart-product');
+const rowProduct = document.querySelector('.row-product');
+const productsList = document.querySelector('.container-items');
+let allProducts = [];
+const valorTotal = document.querySelector('.total-pagar');
+const countProducts = document.querySelector('#contador-productos');
+const cartEmpty = document.querySelector('.cart-empty');
+const cartTotal = document.querySelector('.cart-total');
+
+fetch('productos.json')
+  .then(response => response.json())
+  .then(data => {
+    allProducts = data;
+    showHTML();
+  })
+  .catch(error => console.error('Error al cargar los productos:', error));
+
+productsList.addEventListener('click', e => {
+  if (e.target.classList.contains('btn-add-cart')) {
+    const product = e.target.parentElement;
+
+    const infoProduct = {
+      quantity: 1,
+      title: product.querySelector('h2').textContent,
+      price: parseFloat(product.querySelector('p').textContent.slice(1)),
+    };
+
+    const exists = allProducts.some(
+      product => product.title === infoProduct.title
+    );
+
+    if (exists) {
+      const products = allProducts.map(product => {
+        if (product.title === infoProduct.title) {
+          product.quantity++;
+          return product;
         } else {
-            throw new Error("Por favor, ingrese un valor numérico válido en todas las notas.");
+          return product;
         }
+      });
+      allProducts = [...products];
+    } else {
+      allProducts = [...allProducts, infoProduct];
     }
 
-    calcularNotaFinal() {
-        if (this.notas.length === 0) {
-            return "No se ingresaron notas.";
-        }
+    showHTML();
 
-        const suma = this.notas.reduce((acumulador, nota) => acumulador + nota, 0);
-        const notaFinal = suma / this.notas.length;
+    Swal.fire({
+      icon: 'success',
+      title: 'Producto agregado',
+      text: `${infoProduct.title} ha sido agregado al carrito.`,
+    });
+  }
+});
 
-        const mensaje = `La nota final es: ${notaFinal.toFixed(2)}. `;
-        if (notaFinal >= 4) {
-            return mensaje + "El estudiante ha aprobado.";
-        } else {
-            return mensaje + "El estudiante ha reprobado.";
-        }
-    }
+rowProduct.addEventListener('click', e => {
+  if (e.target.classList.contains('icon-close')) {
+    const product = e.target.parentElement;
+    const title = product.querySelector('p').textContent;
 
-    actualizarNotasEnLocalStorage() {
-        localStorage.setItem("notas", JSON.stringify(this.notas));
-    }
-}
+    allProducts = allProducts.filter(
+      product => product.title !== title
+    );
 
-const estudiante = new Estudiante();
+    showHTML();
 
-// Cargar las notas desde el almacenamiento local al cargar la página
-const notasGuardadas = localStorage.getItem("notas");
-if (notasGuardadas) {
-    estudiante.notas = JSON.parse(notasGuardadas);
-}
+    Swal.fire({
+      icon: 'success',
+      title: 'Producto eliminado',
+      text: `${title} ha sido eliminado del carrito.`,
+    });
+  }
+});
 
-function agregarNota() {
-    const notaInput = document.getElementById("nota");
-    const nota = notaInput.value;
+const showHTML = () => {
+  if (!allProducts.length) {
+    cartEmpty.classList.remove('hidden');
+    rowProduct.classList.add('hidden');
+    cartTotal.classList.add('hidden');
+  } else {
+    cartEmpty.classList.add('hidden');
+    rowProduct.classList.remove('hidden');
+    cartTotal.classList.remove('hidden');
+  }
 
-    try {
-        estudiante.agregarNota(nota);
-        notaInput.value = ""; // Limpiar el campo de entrada
-        document.getElementById("resultado").innerHTML = "Nota agregada exitosamente.";
-    } catch (error) {
-        document.getElementById("resultado").innerHTML = error.message;
-    }
-}
+  rowProduct.innerHTML = '';
 
-function calcularNotaFinal() {
-    const resultado = estudiante.calcularNotaFinal();
-    document.getElementById("resultado").innerHTML = resultado;
-}
+  let total = 0;
+  let totalOfProducts = 0;
+
+  allProducts.forEach(product => {
+    const containerProduct = document.createElement('div');
+    containerProduct.classList.add('cart-product');
+
+    containerProduct.innerHTML = `
+      <div class="info-cart-product">
+        <span class="cantidad-producto-carrito">${product.quantity}</span>
+        <p class="titulo-producto-carrito">${product.title}</p>
+        <span class="precio-producto-carrito">$${product.price.toFixed(2)}</span>
+      </div>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        class="icon-close"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M6 18L18 6M6 6l12 12"
+        />
+      </svg>
+    `;
+
+    rowProduct.append(containerProduct);
+
+    total += product.quantity * product.price;
+    totalOfProducts += product.quantity;
+  });
+
+  valorTotal.innerText = `$${total.toFixed(2)}`;
+  countProducts.innerText = totalOfProducts;
+};
